@@ -36,7 +36,9 @@ radius = 52.0
 height = 128.0
 
 [node name="Player" type="Area2D"]
+collision_mask = 2
 script = ExtResource("1_sweqy")
+metadata/_edit_group_ = true
 
 [node name="PlayerImage" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n7ghd")
@@ -44,3 +46,5 @@ animation = &"walk"
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_nvl01")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

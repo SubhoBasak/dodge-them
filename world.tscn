@@ -1,8 +1,47 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmwo8ojjnuc2s"]
+[gd_scene load_steps=6 format=3 uid="uid://bmwo8ojjnuc2s"]
 
 [ext_resource type="PackedScene" uid="uid://ruxrpbtpkg2j" path="res://player.tscn" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://bjlwvn1lyxyg4" path="res://world.gd" id="1_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://ch2ki4vodgqpi" path="res://enemy.tscn" id="2_aqk2v"]
+[ext_resource type="FontFile" uid="uid://bv4nc5fpvwnwf" path="res://fonts/Xolonium-Regular.ttf" id="4_aqk2v"]
+
+[sub_resource type="Curve2D" id="Curve2D_f3sb7"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1152, 0, 0, 0, 0, 0, 1152, 648, 0, 0, 0, 0, 0, 648, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_tlwt5")
+enemy_scene = ExtResource("2_aqk2v")
+
+[node name="EnemyPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_f3sb7")
+
+[node name="EnemyPathFollow" type="PathFollow2D" parent="EnemyPath"]
 
 [node name="Player" parent="." instance=ExtResource("1_f3sb7")]
 position = Vector2(371, 258)
+
+[node name="EnemyTimer" type="Timer" parent="."]
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="ScoreBoard" type="Label" parent="."]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 212.0
+offset_bottom = 108.0
+theme_override_fonts/font = ExtResource("4_aqk2v")
+theme_override_font_sizes/font_size = 64
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
